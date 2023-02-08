@@ -1,6 +1,6 @@
 package cn.zko0.myRpc.entity;
 
-import cn.zko0.myRpc.util.ResponseCode;
+import cn.zko0.myRpc.enumeration.ResponseCode;
 import lombok.Data;
 
 import java.io.Serializable;

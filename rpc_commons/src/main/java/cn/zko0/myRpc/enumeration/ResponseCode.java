@@ -1,8 +1,7 @@
-package cn.zko0.myRpc.util;
+package cn.zko0.myRpc.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.omg.PortableInterceptor.SUCCESSFUL;
 
 /**
  * @author duanfuqiang
