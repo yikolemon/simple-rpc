@@ -79,7 +79,6 @@ public class NettyRpcClient implements RpcClient{
             AttributeKey<RpcResponse> key = AttributeKey.valueOf("rpcResponse");
             RpcResponse rpcResponse = channel.attr(key).get();
             return rpcResponse.getData();
-
         }
         return null;
     }

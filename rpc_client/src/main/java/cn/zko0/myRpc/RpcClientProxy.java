@@ -1,6 +1,7 @@
 package cn.zko0.myRpc;
 
 
+import cn.zko0.myRpc.client.RpcClient;
 import cn.zko0.myRpc.client.SocketRpcClient;
 import cn.zko0.myRpc.entity.RpcRequest;
 import cn.zko0.myRpc.entity.RpcResponse;
@@ -16,13 +17,18 @@ import java.lang.reflect.Proxy;
  */
 public class RpcClientProxy implements InvocationHandler {
 
-    private String host;
-    private int port;
+//    private String host;
+//    private int port;
 
-    public RpcClientProxy(String host, int port) {
-        this.host = host;
-        this.port = port;
+    public RpcClientProxy(RpcClient client) {
+        this.client = client;
     }
+
+    private RpcClient client;
+//    public RpcClientProxy(String host, int port) {
+//        this.host = host;
+//        this.port = port;
+//    }
 
     //clazz为代理的接口
     @SuppressWarnings("unchecked")
@@ -44,7 +50,8 @@ public class RpcClientProxy implements InvocationHandler {
                 .paramTypes(method.getParameterTypes())
                 .build();
         //使用一个RpcClient将请求发送过去
-        SocketRpcClient socketRpcClient = new SocketRpcClient();
-        return ((RpcResponse) socketRpcClient.sendRequest(rpcRequest,host,port)).getData();
+        //SocketRpcClient socketRpcClient = new SocketRpcClient();
+        Object res = client.sendRequest(rpcRequest);
+        return res;
     }
 }

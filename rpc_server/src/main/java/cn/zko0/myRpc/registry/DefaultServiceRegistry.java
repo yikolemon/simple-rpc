@@ -21,9 +21,9 @@ public class DefaultServiceRegistry implements ServiceRegistry{
     private static final Map<String,Object> serviceMap=new ConcurrentHashMap<>();
     //保存哪些服务已经被注册了，如果被注册了可以通过map直接获取出
     private static final Set<String> serviceSet=ConcurrentHashMap.newKeySet();
-    @Override
     //加锁
-    public synchronized <T> void register(T service) {
+    //这里的register，多个实例都是对同一个static的map和set进行修改
+    public  synchronized <T> void register(T service) {
         String serviceName = service.getClass().getCanonicalName();
         //set包含类的全限定名，已经注册，无需再注册
         if (serviceSet.contains(serviceName)) return;

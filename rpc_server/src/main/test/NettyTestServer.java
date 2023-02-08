@@ -13,5 +13,6 @@ public class NettyTestServer {
         DefaultServiceRegistry registry = new DefaultServiceRegistry();
         registry.register(helloService);
         NettyRpcServer nettyRpcServer = new NettyRpcServer();
+        nettyRpcServer.start(9000);
     }
 }

@@ -11,7 +11,7 @@ public class SerializerFactory {
             return new JdkSerializer();
         }
         if (num==1){
-            return new JdkSerializer();
+            return new JsonSerializer();
         }
         return null;
     }
@@ -20,8 +20,8 @@ public class SerializerFactory {
         if ("java".equalsIgnoreCase(serializerName)){
             return new JdkSerializer();
         }
-        if ("jdk".equalsIgnoreCase(serializerName)){
-            return new JdkSerializer();
+        if ("json".equalsIgnoreCase(serializerName)){
+            return new JsonSerializer();
         }
         return null;
     }
