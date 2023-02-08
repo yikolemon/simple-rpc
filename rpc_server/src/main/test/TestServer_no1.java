@@ -1,4 +1,4 @@
-import cn.zko0.myRpc.RpcServer;
+import cn.zko0.myRpc.server.SocketRpcServer;
 import cn.zko0.myRpc.registry.DefaultServiceRegistry;
 import cn.zko0.myRpc.service.HelloServiceImpl;
 import cn.zko0.myRpc.service.handler.DefaultRequestHandler;
@@ -14,10 +14,10 @@ public class TestServer_no1 {
         DefaultServiceRegistry serviceRegistry = new DefaultServiceRegistry();
         serviceRegistry.register(new HelloServiceImpl());
         //RpcServer,需要一个服务注册器，和请求处理器
-        RpcServer rpcServer = new RpcServer(serviceRegistry,new DefaultRequestHandler());
+        SocketRpcServer socketRpcServer = new SocketRpcServer(serviceRegistry,new DefaultRequestHandler());
         //regist启动一个socketServer，当accept连接，启动一个workThread
         //workThread通过obejct输入输出流，通过反射调用service的方法
         //注意！此设计socket只能绑定一个service
-        rpcServer.start(9000);
+        socketRpcServer.start(9000);
     }
 }

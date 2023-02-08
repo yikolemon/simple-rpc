@@ -1,6 +1,7 @@
 package cn.zko0.myRpc;
 
 
+import cn.zko0.myRpc.client.SocketRpcClient;
 import cn.zko0.myRpc.entity.RpcRequest;
 import cn.zko0.myRpc.entity.RpcResponse;
 
@@ -43,7 +44,7 @@ public class RpcClientProxy implements InvocationHandler {
                 .paramTypes(method.getParameterTypes())
                 .build();
         //使用一个RpcClient将请求发送过去
-        RpcClient rpcClient = new RpcClient();
-        return ((RpcResponse)rpcClient.sendRequest(rpcRequest,host,port)).getData();
+        SocketRpcClient socketRpcClient = new SocketRpcClient();
+        return ((RpcResponse) socketRpcClient.sendRequest(rpcRequest,host,port)).getData();
     }
 }

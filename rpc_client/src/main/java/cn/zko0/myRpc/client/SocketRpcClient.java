@@ -1,4 +1,4 @@
-package cn.zko0.myRpc;
+package cn.zko0.myRpc.client;
 
 import cn.zko0.myRpc.entity.RpcRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import java.net.Socket;
  * @description
  */
 @Slf4j
-public class RpcClient {
+public class SocketRpcClient {
     //远程请求，返回Object
     //通过socket请求，需要host和端口号
     public Object sendRequest(RpcRequest rpcRequest,String host,int port){

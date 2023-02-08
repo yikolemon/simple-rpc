@@ -1,7 +1,7 @@
-package cn.zko0.myRpc;
+package cn.zko0.myRpc.server;
 
+import cn.zko0.myRpc.service.handler.HandlerThread;
 import cn.zko0.myRpc.registry.ServiceRegistry;
-import cn.zko0.myRpc.service.handler.DefaultRequestHandler;
 import cn.zko0.myRpc.service.handler.RequestHandler;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +16,7 @@ import java.util.concurrent.*;
  * @description
  */
 @Slf4j
-public class RpcServer {
+public class SocketRpcServer implements RpcServer{
     private final ExecutorService threadPool;
 
     private RequestHandler requestHandler;
@@ -28,7 +28,7 @@ public class RpcServer {
     private static final int KEEP_ALIVE_TIME = 60;
     private static final int BLOCKING_QUEUE_CAPACITY = 100;
 
-    public RpcServer(ServiceRegistry serviceRegistry, RequestHandler requestHandler) {
+    public SocketRpcServer(ServiceRegistry serviceRegistry, RequestHandler requestHandler) {
         this.serviceRegistry=serviceRegistry;
         this.requestHandler = requestHandler;
         BlockingQueue<Runnable> workingQueue = new ArrayBlockingQueue<>(BLOCKING_QUEUE_CAPACITY);

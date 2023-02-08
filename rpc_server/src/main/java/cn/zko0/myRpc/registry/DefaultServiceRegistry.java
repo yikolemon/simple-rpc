@@ -18,9 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultServiceRegistry implements ServiceRegistry{
 
     //保存接口名和类的对应关系
-    private final Map<String,Object> serviceMap=new ConcurrentHashMap<>();
+    private static final Map<String,Object> serviceMap=new ConcurrentHashMap<>();
     //保存哪些服务已经被注册了，如果被注册了可以通过map直接获取出
-    private final Set<String> serviceSet=ConcurrentHashMap.newKeySet();
+    private static final Set<String> serviceSet=ConcurrentHashMap.newKeySet();
     @Override
     //加锁
     public synchronized <T> void register(T service) {
