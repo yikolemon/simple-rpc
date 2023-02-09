@@ -1,7 +1,10 @@
 package cn.zko0.myRpc.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Tolerate;
 
 import java.io.Serializable;
 
@@ -13,6 +16,7 @@ import java.io.Serializable;
 
 @Data
 @Builder
+
 public class RpcRequest implements Serializable {
     //接口名
     private String interfaceName;
@@ -26,4 +30,7 @@ public class RpcRequest implements Serializable {
     //参数类型
     private Class<?>[] paramTypes;
 
+    @Tolerate
+    public RpcRequest() {
+    }
 }

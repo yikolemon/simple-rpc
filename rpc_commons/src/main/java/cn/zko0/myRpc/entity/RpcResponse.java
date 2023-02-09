@@ -1,7 +1,9 @@
 package cn.zko0.myRpc.entity;
 
 import cn.zko0.myRpc.enumeration.ResponseCode;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,6 +14,8 @@ import java.io.Serializable;
  */
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RpcResponse<T> implements Serializable {
     //响应状态码
     private Integer statusCode;

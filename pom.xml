@@ -11,9 +11,8 @@
   <url>http://maven.apache.org</url>
   <modules>
     <module>rpc_commons</module>
-    <module>rpc_server</module>
     <module>rpc_api</module>
-      <module>rpc_client</module>
+      <module>rpc_core</module>
   </modules>
 
   <properties>

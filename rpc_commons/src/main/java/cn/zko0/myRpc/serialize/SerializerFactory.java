@@ -13,6 +13,9 @@ public class SerializerFactory {
         if (num==1){
             return new JsonSerializer();
         }
+        if (num==2){
+            return new KryoSerializer();
+        }
         return null;
     }
 
@@ -23,6 +26,9 @@ public class SerializerFactory {
         if ("json".equalsIgnoreCase(serializerName)){
             return new JsonSerializer();
         }
+        if ("kyro".equalsIgnoreCase(serializerName)) {
+            return new KryoSerializer();
+        }
         return null;
     }
 
@@ -32,6 +38,9 @@ public class SerializerFactory {
         }
         if (serializer instanceof JsonSerializer){
             return 1;
+        }
+        if (serializer instanceof KryoSerializer){
+            return 2;
         }
         return -1;
     }
