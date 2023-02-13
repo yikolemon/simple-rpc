@@ -8,8 +8,10 @@ import cn.zko0.myRpc.handler.NettyClientHandler;
 import cn.zko0.myRpc.protocal.ProcotolFrameDecoder;
 import cn.zko0.myRpc.protocal.RpcDecoder;
 import cn.zko0.myRpc.protocal.RpcEncoder;
+import cn.zko0.myRpc.registry.ServiceDiscovery;
 import cn.zko0.myRpc.registry.ServiceRegistry;
 import cn.zko0.myRpc.serialize.Serializer;
+import cn.zko0.myRpc.util.NacosClientUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -34,7 +36,7 @@ public class NettyRpcClient implements RpcClient{
     //序列化器
     private  Serializer serializer;
 
-    private ServiceRegistry registry;
+    private ServiceDiscovery discovery;
 
     //private String host;
     //private int port;
@@ -65,13 +67,14 @@ public class NettyRpcClient implements RpcClient{
             log.error("未设置序列化器");
             throw new RpcException(RpcError.NONE_SERIALIZER);
         }
-        InetSocketAddress inetSocketAddress = registry.searchService(rpcRequest.getInterfaceName());
+        InetSocketAddress inetSocketAddress = discovery.searchService(rpcRequest.getInterfaceName());
         String host = inetSocketAddress.getHostName();
         int port = inetSocketAddress.getPort();
         ChannelFuture future = null;
         try {
             future = bootstrap.connect(host, port).sync();
         } catch (InterruptedException e) {
+            //服务调用失败，清除本地缓存
             throw new RuntimeException(e);
         }
         log.info("客户端连接服务器,host==>{},port==>{}",host,port);
@@ -97,6 +100,8 @@ public class NettyRpcClient implements RpcClient{
             RpcResponse rpcResponse = channel.attr(key).get();
             return rpcResponse.getData();
         }
+        //消息发送失败，清除本地服务缓存，下次请求从注册中心获取
+        NacosClientUtils.cleanLocalCache(rpcRequest.getInterfaceName());
         throw new RpcException(RpcError.SEND_ERROR);
     }
 }

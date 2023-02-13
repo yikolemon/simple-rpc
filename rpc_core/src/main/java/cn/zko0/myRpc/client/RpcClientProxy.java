@@ -1,4 +1,4 @@
-package cn.zko0.myRpc;
+package cn.zko0.myRpc.client;
 
 
 import cn.zko0.myRpc.client.RpcClient;

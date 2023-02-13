@@ -1,9 +1,11 @@
 package client;
 
-import cn.zko0.myRpc.RpcClientProxy;
+import cn.zko0.myRpc.client.RpcClientProxy;
 import cn.zko0.myRpc.api.HelloObject;
 import cn.zko0.myRpc.api.HelloService;
 import cn.zko0.myRpc.client.NettyRpcClient;
+import cn.zko0.myRpc.lb.RoundRobinLoadBalancer;
+import cn.zko0.myRpc.registry.NacosServiceDiscovery;
 import cn.zko0.myRpc.registry.NacosServiceRegistry;
 import cn.zko0.myRpc.serialize.KryoSerializer;
 
@@ -15,7 +17,7 @@ import cn.zko0.myRpc.serialize.KryoSerializer;
 public class NettyTestClient {
     public static void main(String[] args) {
         //NettyClient
-        NettyRpcClient client = new NettyRpcClient(new KryoSerializer(),new NacosServiceRegistry());
+        NettyRpcClient client = new NettyRpcClient(new KryoSerializer(),new NacosServiceDiscovery(new RoundRobinLoadBalancer()));
         client.init();
         //生成代理类
         RpcClientProxy rpcClientProxy = new RpcClientProxy(client);

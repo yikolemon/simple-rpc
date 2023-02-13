@@ -2,6 +2,7 @@ package cn.zko0.myRpc.service;
 
 
 
+import cn.zko0.myRpc.annotation.Service;
 import cn.zko0.myRpc.api.HelloObject;
 import cn.zko0.myRpc.api.HelloService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * @description
  */
 @Slf4j
+@Service
 public class HelloServiceImpl implements HelloService {
     @Override
     public String hello(HelloObject helloObject) {

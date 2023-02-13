@@ -1,4 +1,4 @@
-//import cn.zko0.myRpc.RpcClientProxy;
+//import cn.zko0.myRpc.client.RpcClientProxy;
 //import cn.zko0.myRpc.api.HelloObject;
 //import cn.zko0.myRpc.api.HelloService;
 //

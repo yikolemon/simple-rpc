@@ -26,7 +26,12 @@ public enum RpcError {
 
     NONE_SERIALIZER("序列化工具未注入"),
 
-    SEND_ERROR("RPC请求发送失败");
+    SEND_ERROR("RPC请求发送失败"),
+
+    DESTORY_REGISTER_FALL("服务注销失败"),
+
+    SERVICE_SCAN_BASE_ANNOTATION_NOT_FOUND("缺少启动类包扫描注解");
+
 
 
     private String message;

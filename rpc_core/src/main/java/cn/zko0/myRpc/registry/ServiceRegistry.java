@@ -12,6 +12,5 @@ public interface ServiceRegistry {
     void register(String serviceName, InetSocketAddress inetAddress);
 
     //通过服务名获取服务提供者的地址
-    InetSocketAddress searchService(String serviceName);
 
 }

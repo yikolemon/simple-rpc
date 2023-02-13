@@ -1,6 +1,5 @@
 package cn.zko0.myRpc.server;
 
-import cn.zko0.myRpc.config.NacosConfig;
 import cn.zko0.myRpc.enumeration.RpcError;
 import cn.zko0.myRpc.exception.RpcException;
 import cn.zko0.myRpc.handler.NettyServerHandler;
@@ -32,9 +31,8 @@ import java.net.InetSocketAddress;
  * @description
  */
 @Slf4j
-@AllArgsConstructor
 @Builder
-public class NettyRpcServer implements RpcServer{
+public class NettyRpcServer extends AbstractRpcServer{
 
     //注册ip
     private String hostName;
@@ -48,9 +46,20 @@ public class NettyRpcServer implements RpcServer{
 
     private ServiceProvider provider;
 
+    public NettyRpcServer(String hostName, Integer port,
+                          Serializer serializer, ServiceRegistry registry, ServiceProvider provider) {
+        this.hostName = hostName;
+        this.port = port;
+        this.serializer = serializer;
+        this.registry = registry;
+        this.provider = provider;
+    }
+
 
     @Override
     public void start()  {
+        //扫描，注册服务
+        scanServices();
         if (serializer==null){
             log.error("序列化工具未注入");
             throw new RpcException(RpcError.NONE_SERIALIZER);
@@ -80,6 +89,8 @@ public class NettyRpcServer implements RpcServer{
                 );
         try {
             ChannelFuture future = serverBootstrap.bind(port).sync();
+            //添加线程结束，清除远端注册服务实例的钩子函数
+            ShutdownHook.getShutdownHook().addClearAllHook();
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             log.error("Netty服务器启动失败");
@@ -94,7 +105,7 @@ public class NettyRpcServer implements RpcServer{
 
     //服务注册
     @Override
-    public <T> void publishService(Object service, Class<T> serviceClass) {
+    public <T> void publishService(Object service, String serviceCanonicalName) {
 //        if (serializer==null){
 //            log.error("序列化工具未注入");
 //            throw new RpcException(RpcError.NONE_SERIALIZER);
@@ -103,6 +114,6 @@ public class NettyRpcServer implements RpcServer{
         //本地提供服务
         provider.addProvider(service);
         //将服务注册进注册中心
-        registry.register(serviceClass.getCanonicalName(),new InetSocketAddress(hostName,port));
+        registry.register(serviceCanonicalName,new InetSocketAddress(hostName,port));
     }
 }
