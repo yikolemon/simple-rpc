@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.zko0.myRpc</groupId>
-        <artifactId>myRpc</artifactId>
+        <artifactId>zko0-rpc</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>rpc_api</artifactId>
+    <artifactId>rpc-api</artifactId>
     <packaging>jar</packaging>
 
-    <name>rpc_api</name>
+    <name>rpc-api</name>
     <url>http://maven.apache.org</url>
 
     <properties>

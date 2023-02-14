@@ -3,16 +3,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>cn.zko0.myRpc</groupId>
-  <artifactId>myRpc</artifactId>
+  <artifactId>zko0-rpc</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>zko0_Rpc</name>
   <url>http://maven.apache.org</url>
   <modules>
-    <module>rpc_commons</module>
-    <module>rpc_api</module>
-      <module>rpc_core</module>
+    <module>rpc-commons</module>
+    <module>rpc-api</module>
+    <module>rpc-core</module>
   </modules>
 
   <properties>
