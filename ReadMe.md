@@ -7,6 +7,10 @@
 
 提供注册中心：
 * Nacos
+* ZooKeeper
+
+ZooKeeper提供了简单的本地缓存
+提供服务监听更新（未完成）
 
 
 ## 代码Clone
