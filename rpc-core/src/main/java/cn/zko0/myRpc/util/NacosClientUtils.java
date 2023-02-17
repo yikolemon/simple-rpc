@@ -2,13 +2,17 @@ package cn.zko0.myRpc.util;
 
 import cn.zko0.myRpc.enumeration.RpcError;
 import cn.zko0.myRpc.exception.RpcException;
+import cn.zko0.myRpc.lb.LoadBalancer;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.pojo.Instance;
+import com.alibaba.nacos.common.utils.ConcurrentHashSet;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -19,34 +23,23 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class NacosClientUtils {
 
-    //获取Nacos的Server地址
 
-    private static final Map<String,InetSocketAddress> instances=new ConcurrentHashMap<>();
-
-
-    public static InetSocketAddress searchService(String serviceName) {
+    public static InetSocketAddress searchService(String serviceName, LoadBalancer loadBalancer) {
         InetSocketAddress address;
         //本地缓存查询
-        if ((address=instances.get(serviceName))!=null){
-            return address;
-        }
-        else {
-            try {
-                List<Instance> instances = NacosUtil.getNamingService().getAllInstances(serviceName);
-                Instance instance = instances.get(0);
-                //将instance包装为intentSocketAddress
-                InetSocketAddress inetSocketAddress = new InetSocketAddress(instance.getIp(), instance.getPort());
-                return inetSocketAddress;
-            } catch (NacosException e) {
-                log.error("服务获取失败====>{}",e);
-                throw new RpcException(RpcError.SERVICE_NONE_INSTANCE);
+        try {
+            List<Instance> instances = NacosUtil.getNamingService().getAllInstances(serviceName);
+            List<InetSocketAddress> list=new ArrayList<>();
+            for (Instance i : instances) {
+                list.add(new InetSocketAddress(i.getIp(),i.getPort()));
             }
+            InetSocketAddress res = loadBalancer.select(list);
+            return res;
+        } catch (NacosException e) {
+            log.error("服务获取失败====>{}",e);
+            throw new RpcException(RpcError.SERVICE_NONE_INSTANCE);
         }
     }
 
-    public static void cleanLocalCache(String serviceName){
-        log.info("服务调用失败，清除本地缓存，重新获取实例===>{}",serviceName);
-        instances.remove(serviceName);
-    }
 
 }

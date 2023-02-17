@@ -2,6 +2,7 @@ package cn.zko0.myRpc.lb;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,8 +16,8 @@ public class RoundRobinLoadBalancer implements LoadBalancer{
     private AtomicInteger nextServerCyclicCounter;
 
     @Override
-    public Instance select(List<Instance> instances) {
-        return instances.get(incrementAndGetModulo(instances.size()));
+    public InetSocketAddress select(List<InetSocketAddress> addresses) {
+        return addresses.get(incrementAndGetModulo(addresses.size()));
     }
 
 

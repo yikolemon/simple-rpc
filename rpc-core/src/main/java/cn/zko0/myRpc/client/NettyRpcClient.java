@@ -1,5 +1,6 @@
 package cn.zko0.myRpc.client;
 
+import cn.zko0.myRpc.config.RpcConfig;
 import cn.zko0.myRpc.entity.RpcRequest;
 import cn.zko0.myRpc.entity.RpcResponse;
 import cn.zko0.myRpc.enumeration.RpcError;
@@ -9,16 +10,17 @@ import cn.zko0.myRpc.protocal.ProcotolFrameDecoder;
 import cn.zko0.myRpc.protocal.RpcDecoder;
 import cn.zko0.myRpc.protocal.RpcEncoder;
 import cn.zko0.myRpc.registry.ServiceDiscovery;
-import cn.zko0.myRpc.registry.ServiceRegistry;
+import cn.zko0.myRpc.registry.ServiceFactory;
 import cn.zko0.myRpc.serialize.Serializer;
-import cn.zko0.myRpc.util.NacosClientUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
+import cn.zko0.myRpc.serialize.SerializerFactory;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
@@ -30,7 +32,6 @@ import java.net.InetSocketAddress;
  * @description
  */
 @Slf4j
-@AllArgsConstructor
 public class NettyRpcClient implements RpcClient{
 
     //序列化器
@@ -43,6 +44,11 @@ public class NettyRpcClient implements RpcClient{
 
     //这里的netty是短连接设计，为了防止同
     private static final Bootstrap bootstrap=new Bootstrap();
+
+    public NettyRpcClient() {
+        serializer=SerializerFactory.getSerializer(RpcConfig.getSerializerType());
+        discovery= ServiceFactory.getServiceDiscovery();
+    }
 
     public void init(){
         bootstrap.group(new NioEventLoopGroup())
@@ -101,7 +107,8 @@ public class NettyRpcClient implements RpcClient{
             return rpcResponse.getData();
         }
         //消息发送失败，清除本地服务缓存，下次请求从注册中心获取
-        NacosClientUtils.cleanLocalCache(rpcRequest.getInterfaceName());
+        //NacosClientUtils.cleanLocalCache(rpcRequest.getInterfaceName());
+        discovery.cleanLoaclCache(rpcRequest.getInterfaceName());
         throw new RpcException(RpcError.SEND_ERROR);
     }
 }

@@ -26,7 +26,7 @@ public class SerializerFactory {
         if ("json".equalsIgnoreCase(serializerName)){
             return new JsonSerializer();
         }
-        if ("kyro".equalsIgnoreCase(serializerName)) {
+        if ("kryo".equalsIgnoreCase(serializerName)) {
             return new KryoSerializer();
         }
         return null;

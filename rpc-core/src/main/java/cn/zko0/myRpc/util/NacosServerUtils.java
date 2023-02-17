@@ -44,7 +44,8 @@ public class NacosServerUtils {
     public static void register(String serviceName,InetSocketAddress inetSocketAddress){
         try {
             //注册服务
-            NacosUtil.getNamingService().registerInstance(serviceName,inetSocketAddress.getHostName(),inetSocketAddress.getPort());
+            String hostName = inetSocketAddress.getHostName();
+            NacosUtil.getNamingService().registerInstance(serviceName,hostName,inetSocketAddress.getPort());
             //放入map
             instances.put(serviceName,inetSocketAddress);
         } catch (NacosException e) {

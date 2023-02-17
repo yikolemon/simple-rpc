@@ -2,6 +2,7 @@ package cn.zko0.myRpc.lb;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Random;
 
@@ -12,7 +13,7 @@ import java.util.Random;
  */
 public class RandomLoadBalancer implements LoadBalancer{
     @Override
-    public Instance select(List<Instance> instances) {
-        return instances.get(new Random().nextInt(instances.size()));
+    public InetSocketAddress select(List<InetSocketAddress> addresses) {
+        return addresses.get(new Random().nextInt(addresses.size()));
     }
 }

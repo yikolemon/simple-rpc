@@ -25,6 +25,12 @@ public class NacosServiceDiscovery implements ServiceDiscovery {
 
     @Override
     public InetSocketAddress searchService(String serviceName) {
-        return NacosClientUtils.searchService(serviceName);
+        return NacosClientUtils.searchService(serviceName,loadBalancer);
     }
+
+    @Override
+    public void cleanLoaclCache(String serviceName) {
+        return;
+    }
+
 }

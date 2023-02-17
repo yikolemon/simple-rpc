@@ -13,6 +13,8 @@
     <module>rpc-commons</module>
     <module>rpc-api</module>
     <module>rpc-core</module>
+      <module>rpc-test-server</module>
+    <module>zko-test-client</module>
   </modules>
 
   <properties>

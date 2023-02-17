@@ -1,5 +1,7 @@
 package cn.zko0.myRpc.server;
 
+import cn.zko0.myRpc.annotation.Service;
+import cn.zko0.myRpc.registry.ServiceFactory;
 import cn.zko0.myRpc.util.NacosServerUtils;
 import cn.zko0.myRpc.util.ThreadPoolFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +39,7 @@ public class ShutdownHook {
     public void addClearAllHook(){
         log.info("关闭后注销所有服务");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            NacosServerUtils.cleanRegistry();
+            ServiceFactory.getServiceRegistry().cleanRegistry();
             threadPool.shutdown();
         }));
     }

@@ -2,6 +2,7 @@ package cn.zko0.myRpc.lb;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
@@ -10,5 +11,5 @@ import java.util.List;
  * @description
  */
 public interface LoadBalancer {
-    Instance select(List<Instance> instances);
+    InetSocketAddress select(List<InetSocketAddress> addresses);
 }

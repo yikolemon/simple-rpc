@@ -18,4 +18,9 @@ public class NacosServiceRegistry implements ServiceRegistry{
         NacosServerUtils.register(serviceName,inetSocketAddress);
     }
 
+    @Override
+    public void cleanRegistry() {
+        NacosServerUtils.cleanRegistry();
+    }
+
 }

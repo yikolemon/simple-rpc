@@ -1,5 +1,6 @@
 package cn.zko0.myRpc.server;
 
+import cn.zko0.myRpc.config.RpcConfig;
 import cn.zko0.myRpc.enumeration.RpcError;
 import cn.zko0.myRpc.exception.RpcException;
 import cn.zko0.myRpc.handler.NettyServerHandler;
@@ -7,8 +8,10 @@ import cn.zko0.myRpc.protocal.ProcotolFrameDecoder;
 import cn.zko0.myRpc.protocal.RpcDecoder;
 import cn.zko0.myRpc.protocal.RpcEncoder;
 import cn.zko0.myRpc.provider.ServiceProvider;
+import cn.zko0.myRpc.registry.ServiceFactory;
 import cn.zko0.myRpc.registry.ServiceRegistry;
 import cn.zko0.myRpc.serialize.Serializer;
+import cn.zko0.myRpc.serialize.SerializerFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -31,7 +34,6 @@ import java.net.InetSocketAddress;
  * @description
  */
 @Slf4j
-@Builder
 public class NettyRpcServer extends AbstractRpcServer{
 
     //注册ip
@@ -46,12 +48,11 @@ public class NettyRpcServer extends AbstractRpcServer{
 
     private ServiceProvider provider;
 
-    public NettyRpcServer(String hostName, Integer port,
-                          Serializer serializer, ServiceRegistry registry, ServiceProvider provider) {
-        this.hostName = hostName;
-        this.port = port;
-        this.serializer = serializer;
-        this.registry = registry;
+    public NettyRpcServer(ServiceProvider provider) {
+        this.hostName = RpcConfig.getServerHostName();
+        this.port = RpcConfig.getServerPort();
+        this.serializer = SerializerFactory.getSerializer(RpcConfig.getSerializerType());
+        this.registry = ServiceFactory.getServiceRegistry();
         this.provider = provider;
     }
 

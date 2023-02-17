@@ -11,4 +11,6 @@ import java.net.InetSocketAddress;
  */
 public interface ServiceDiscovery {
     InetSocketAddress searchService(String serviceName);
+
+    void cleanLoaclCache(String serviceName);
 }
