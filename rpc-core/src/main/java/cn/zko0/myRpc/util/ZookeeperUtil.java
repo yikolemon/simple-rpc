@@ -30,7 +30,7 @@ public class ZookeeperUtil {
         if (zookeeperClient==null){
             synchronized (ZookeeperUtil.class){
                 if (zookeeperClient==null){
-                    RetryPolicy retryPolic=new ExponentialBackoffRetry(3000,10);
+                    RetryPolicy retryPolic=new ExponentialBackoffRetry(6000,10);
                     zookeeperClient = CuratorFrameworkFactory.builder()
                             .connectString(SERVER_HOSTNAME+":"+SERVER_PORT)
                             .retryPolicy(retryPolic)
@@ -50,6 +50,11 @@ public class ZookeeperUtil {
 
     public static String serviceName2Path(String serviceName){
         return "/"+serviceName.replaceAll("\\.","/");
+    }
+
+    public static String path2ServiceName(String path){
+        path = path.replaceAll("/", "\\.");
+        return path.substring(1,path.length());
     }
 
     public static String getServerHostname(){

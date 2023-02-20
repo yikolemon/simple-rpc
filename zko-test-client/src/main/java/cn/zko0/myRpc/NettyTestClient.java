@@ -25,5 +25,7 @@ public class NettyTestClient {
         HelloObject helloObject = new HelloObject(6, "this is test");
         String res = helloService.hello(helloObject);
         System.out.println(res);
+        //测试服务监听
+        while (true){}
     }
 }

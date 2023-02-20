@@ -1,6 +1,7 @@
 package cn.zko0.myRpc.registry;
 
 import cn.zko0.myRpc.lb.LoadBalancer;
+import cn.zko0.myRpc.util.ZookeeperClientCache;
 import cn.zko0.myRpc.util.ZookeeperClientUtils;
 import cn.zko0.myRpc.util.ZookeeperServerUitls;
 
@@ -26,6 +27,6 @@ public class ZookeeperServiceDiscovery implements ServiceDiscovery{
 
     @Override
     public void cleanLoaclCache(String serviceName) {
-        ZookeeperClientUtils.cleanLocalCache(serviceName);
+        ZookeeperClientCache.cleanLocalCache(serviceName);
     }
 }

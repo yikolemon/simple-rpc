@@ -24,13 +24,11 @@ public class ZookeeperClientUtils {
 
     private static CuratorFramework client = ZookeeperUtil.getZookeeperClient();
 
-    private static final Map<String,  List<InetSocketAddress>> instances=new ConcurrentHashMap<>();
-
     public static InetSocketAddress searchService(String serviceName, LoadBalancer loadBalancer) {
         InetSocketAddress address;
         //本地缓存查询
-        if (instances.containsKey(serviceName)){
-            List<InetSocketAddress> addressList = instances.get(serviceName);
+        if (ZookeeperClientCache.containsKey(serviceName)){
+            List<InetSocketAddress> addressList = ZookeeperClientCache.getOrDefault(serviceName);
             if (!addressList.isEmpty()){
                 //使用lb进行负载均衡
                 return loadBalancer.select(addressList);
@@ -47,21 +45,11 @@ public class ZookeeperClientUtils {
                 InetSocketAddress instance = InetSocketAddressSerializerUtil.getInetSocketAddressByJson(json);
                 addressList.add(instance);
             }
-            addLocalCache(serviceName,addressList);
+            ZookeeperClientCache.addLocalCache(serviceName,addressList);
             return loadBalancer.select(addressList);
         } catch (Exception e) {
             log.error("服务获取失败====>{}",e);
             throw new RpcException(RpcError.SERVICE_NONE_INSTANCE);
         }
-    }
-
-    public static void cleanLocalCache(String serviceName){
-        log.info("服务调用失败，清除本地缓存，重新获取实例===>{}",serviceName);
-        instances.remove(serviceName);
-    }
-
-    public static void addLocalCache(String serviceName,List<InetSocketAddress> addressList){
-        //直接替换原本的缓存
-        instances.put(serviceName,addressList);
     }
 }
